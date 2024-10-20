@@ -1,3 +1,5 @@
+import random 
+
 class RubikCube: 
     def __init__(self, size): 
         self.size= size 
@@ -114,6 +116,25 @@ class RubikCube:
             self.rotate_face_clockwise("Left")
         elif col == self.size - 1:
             self.rotate_face_anticlockwise("Right")
+
+    def scrambler(self, moves=20):
+        for _ in range(moves):
+            # Randomly choose between row or column turn
+            if random.choice(['row', 'column']) == 'row':
+                row = random.randint(0, self.size - 1)
+                direction = random.choice(['left', 'right'])
+                if direction == 'left':
+                    self.turn_row_left(row)
+                else:
+                    self.turn_row_right(row)
+            else:
+                col = random.randint(0, self.size - 1)
+                direction = random.choice(['up', 'down'])
+                if direction == 'up':
+                    self.turn_column_up(col)
+                else:
+                    self.turn_column_down(col)
+
    
 
     
@@ -121,11 +142,7 @@ class RubikCube:
 cube = RubikCube(3)
 cube.display()
 
-print("after rotating top row to the right")
-cube.turn_row_right(0)
-cube.display()
-
-print("after turning column 0 up")
-cube.turn_column_up(2)
+print("After scrambiling function")
+cube.scrambler(moves=20)
 cube.display()
 
