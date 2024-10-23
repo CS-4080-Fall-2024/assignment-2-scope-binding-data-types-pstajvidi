@@ -29,15 +29,14 @@ class RubikCube:
          
          
         """
-
-
+    #Main rotate meethod clockwise 
     def rotate_face_clockwise(self, face):
         self.cube[face] = [list(reversed(col)) for col in zip(*self.cube[face])]
-    
+    #main rotate method counter clockwise 
     def rotate_face_counterclock(self,face):
          self.cube[face] = [list(col) for col in zip(*reversed(self.cube[face]))]
 
-    
+    #rotate front face using the rotate face clock wise
     def rotate_front_face_clockwise(self):
         self.rotate_face_clockwise("Front")
         temp_row = self.cube["Up"][-1]
@@ -51,6 +50,7 @@ class RubikCube:
         for i in range(self.size):
             self.cube["Right"][i][0] = temp_row[i]
  
+    #rotate front face using counter clockwise method 
     def rotate_front_face_counter_clockwise(self):
         self.rotate_face_counterclock("Front")
         temp_row = self.cube["Up"][-1]
@@ -61,6 +61,7 @@ class RubikCube:
         for i in range(self.size):
             self.cube["Left"][-1-i][-1] = temp_row[i]
     
+    #rotate back clockwise using the rotate face clockwise 
     def rotate_back_face_clockwise(self):
         self.rotate_face_clockwise("Back")
         temp_row = self.cube["Up"][0]
@@ -71,6 +72,7 @@ class RubikCube:
         for i in range(self.size):
             self.cube["Left"][-1-i][0] = temp_row[i]
     
+    #using the back face counter clockwise
     def rotate_back_face_counter_clockwise(self):
         self.rotate_face_counterclock("Back")
         temp_row = self.cube["Up"][0]
@@ -81,6 +83,7 @@ class RubikCube:
         for i in range(self.size):
             self.cube["Right"][i][-1] = temp_row[i]
 
+    #rotate up face clockwise 
     def rotate_up_face_clockwise(self):
         self.rotate_face_clockwise("Up")
         temp_row = self.cube["Front"][0]
@@ -89,6 +92,7 @@ class RubikCube:
         self.cube["Back"][0] = self.cube["Right"][0]
         self.cube["Right"][0] = temp_row
 
+    #rotate up face counter clock wise
     def rotate_up_face_counter_clockwise(self):
         self.rotate_face_counterclock("Up")
         temp_row = self.cube["Front"][0]
@@ -97,6 +101,7 @@ class RubikCube:
         self.cube["Back"][0] = self.cube["Right"][0]
         self.cube["Right"][0] = temp_row
 
+    #rotate down face clockwise 
     def rotate_down_face_clockwise(self):
         self.rotate_face_clockwise("Down") 
         initial = self.cube["Front"][-1] 
@@ -105,6 +110,7 @@ class RubikCube:
         self.cube["Back"][-1] = self.cube["Right"][-1]
         self.cube["Right"][-1] = initial
 
+    #rotate down face counter clockwise
     def rotate_down_face_counter_clockwise(self):
         self.rotate_face_counterclock("Down")
         temp_row = self.cube["Front"][-1]
@@ -113,6 +119,7 @@ class RubikCube:
         self.cube["Back"][-1] = self.cube["Left"][-1]
         self.cube["Left"][-1] = temp_row
 
+    #rotate left face clockwise
     def rotate_left_face_clockwise(self):
         self.rotate_face_clockwise("Left")
         temp_col = [self.cube["Up"][i][0] for i in range(self.size)]
@@ -122,6 +129,7 @@ class RubikCube:
             self.cube["Down"][i][0] = self.cube["Front"][i][0]
             self.cube["Front"][i][0] = temp_col[i]
 
+    #rotate left face counter clockwise
     def rotate_left_face_counter_clockwise(self):
         self.rotate_face_counterclock("Left")
         temp_col = [self.cube["Up"][i][0] for i in range(self.size)]
@@ -131,6 +139,7 @@ class RubikCube:
             self.cube["Down"][i][0] = self.cube["Back"][-1-i][self.size-1]
             self.cube["Back"][-1-i][self.size-1] = temp_col[i]
 
+    #rotate any layer clockwise,taking in the cube and the layer we want to move
     def rotate_layer_clockwise(self, layer):
         temp_row = self.cube["Front"][layer]
         self.cube["Front"][layer] = self.cube["Left"][layer]
@@ -138,6 +147,7 @@ class RubikCube:
         self.cube["Back"][layer] = self.cube["Right"][layer][::-1]
         self.cube["Right"][layer] = temp_row
 
+    #rotate any layer counter clockwise taking in the cube and the layer we want
     def rotate_layer_counter_clockwise(self, layer):
         temp_row = self.cube["Front"][layer]
         self.cube["Front"][layer] = self.cube["Right"][layer]
@@ -145,6 +155,7 @@ class RubikCube:
         self.cube["Back"][layer] = self.cube["Left"][layer][::-1]
         self.cube["Left"][layer] = temp_row
 
+    #rotate a column up, any column, taking in the cube and the column we want 
     def rotate_column_up(self, column):
         temp_col = [self.cube["Front"][i][column] for i in range(self.size)]
         for i in range(self.size):
@@ -155,7 +166,8 @@ class RubikCube:
             self.cube["Back"][-1-i][column] = self.cube["Up"][i][column]
         for i in range(self.size):
             self.cube["Up"][i][column] = temp_col[i]
-            
+
+    #rotate column down, taking in a cube, and the column we want 
     def rotate_column_down(self, column):
         temp_col = [self.cube["Front"][i][column] for i in range(self.size)]
         for i in range(self.size):
@@ -166,7 +178,8 @@ class RubikCube:
             self.cube["Back"][-1-i][column] = self.cube["Down"][i][column]
         for i in range(self.size):
             self.cube["Down"][i][column] = temp_col[i]
-            
+
+    #printing function   
     def display(self):
         # Display the cube state for each face
         for face in self.cube:
@@ -175,6 +188,7 @@ class RubikCube:
                 print(' '.join(row))
             print()  # Blank line after each face
 
+    #scramble fucntion that will randomly scramble the cube
     def scramble(self, rotations):
         possible_moves = [
             self.rotate_front_face_clockwise,
@@ -201,7 +215,7 @@ class RubikCube:
                 move()  # Regular face rotations
 
     
-
+#usage example 
 cube = RubikCube(3)
 cube.rotate_column_down(2)
 cube.display()
